@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TechJobPortal.Models.JobListing>
+@using TechJobPortal.Models
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Job Listings";
+}
+
+<div class="vh-100 d-flex justify-content-center align-items-center flex-column">
+    <h2>Job Listings</h2>
+    <div class="d-flex justify-content-around w-50 gap-10">
+        <form method="get">
+            <select name="jobType" onchange="this.form.submit()">
+                <option value="">All</option>
+                @foreach (var type in Enum.GetValues(typeof(JobType)))
+                {
+                    <option value="@type">@type</option>
+                }
+            </select>
+        </form>
+        <form method="get">
+            <select name="sortOrder" onchange="this.form.submit()">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+            </select>
+        </form>
+    </div>
+    
+
+
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Company</th>
+                <th>Location</th>
+                <th>Job Type</th>
+                <th>Posted Date</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var job in Model)
+            {
+                <tr>
+                    <td>@job.Title</td>
+                    <td>@job.CompanyName</td>
+                    <td>@job.Location</td>
+                    <td>@job.JobType</td>
+                    <td>Posted on: @job.PostedDate.ToString("MMM dd, yyyy")</td>
+                    <td><a asp-action="Details" asp-route-id="@job.Id" class="btn btn-info">View</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
